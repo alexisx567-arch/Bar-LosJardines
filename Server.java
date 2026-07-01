@@ -48,6 +48,7 @@ public class Server {
             // Registrar manejadores (handlers)
             server.createContext("/api/events", new EventsHandler());
             server.createContext("/api/alert", new AlertHandler());
+            server.createContext("/api/alerts", new AlertsListHandler());
             server.createContext("/api/resolve", new ResolveHandler());
             server.createContext("/mesa", new MesaRedirectHandler());
             server.createContext("/", new StaticFileHandler());
@@ -313,6 +314,24 @@ public class Server {
             broadcastEvent("newAlert", alert.toJson());
 
             sendJsonResponse(exchange, 200, "{\"success\":true,\"id\":\"" + id + "\"}");
+        }
+    }
+
+    /**
+     * Handler para listar todas las alertas activas (GET /api/alerts).
+     * Usado como endpoint de polling por el panel cuando SSE no esta disponible.
+     */
+    static class AlertsListHandler implements HttpHandler {
+        @Override
+        public void handle(HttpExchange exchange) throws IOException {
+            if (!exchange.getRequestMethod().equalsIgnoreCase("GET")) {
+                exchange.sendResponseHeaders(405, -1);
+                return;
+            }
+            String json = "[" + activeAlerts.stream()
+                    .map(Alert::toJson)
+                    .collect(Collectors.joining(",")) + "]";
+            sendJsonResponse(exchange, 200, json);
         }
     }
 

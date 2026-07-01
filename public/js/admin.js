@@ -4,6 +4,13 @@ let soundEnabled = false;
 let audioContextUnlocked = false;
 let intervalId = null;
 
+// Control de reconexion SSE con backoff exponencial
+let sseSource = null;
+let sseReintento = 0;
+let sseTimeoutId = null;
+let modoPolling = false;
+let pollingIntervalId = null;
+
 // Tiempos de resolución para estadísticas históricas de la sesión
 const resolutionTimes = [];
 
@@ -16,25 +23,57 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /**
- * Conecta al canal SSE (Server-Sent Events) y gestiona los eventos del servidor
+ * Conecta al canal SSE con reconexion automatica infinita y backoff exponencial.
+ * Si SSE falla repetidamente activa polling HTTP como fallback garantizado.
  */
 function conectarEventos() {
-    const statusDot = document.getElementById("connection-status");
-    const statusText = statusDot.querySelector(".status-text");
-    
-    console.log("Conectando a Server-Sent Events...");
+    // Cerrar conexion anterior si existe
+    if (sseSource) {
+        sseSource.close();
+        sseSource = null;
+    }
+
+    actualizarEstadoConexion("conectando");
+    console.log(`Conectando SSE... (intento ${sseReintento + 1})`);
+
     const eventSource = new EventSource("/api/events");
+    sseSource = eventSource;
 
     eventSource.onopen = () => {
-        console.log("Conexión SSE establecida con éxito.");
-        statusDot.className = "status-indicator status-online";
-        statusText.textContent = "Conectado";
+        console.log("Conexion SSE establecida.");
+        sseReintento = 0;
+        actualizarEstadoConexion("online");
+
+        // Si estaba en polling, desactivarlo ahora que SSE funciona
+        if (modoPolling) {
+            modoPolling = false;
+            clearInterval(pollingIntervalId);
+            pollingIntervalId = null;
+            console.log("Polling desactivado, SSE restaurado.");
+        }
     };
 
-    eventSource.onerror = (error) => {
-        console.error("Error en conexión SSE. Reconectando automáticamente...", error);
-        statusDot.className = "status-indicator status-offline";
-        statusText.textContent = "Desconectado";
+    eventSource.onerror = () => {
+        console.warn("Error SSE. Programando reconexion...");
+        actualizarEstadoConexion("reconectando");
+        eventSource.close();
+        sseSource = null;
+        sseReintento++;
+
+        // Backoff exponencial: 1s, 1.5s, 2.25s... hasta 15s maximo
+        const espera = Math.min(1000 * Math.pow(1.5, sseReintento), 15000);
+        console.log(`Reconectando en ${Math.round(espera / 1000)}s... (intento ${sseReintento})`);
+
+        // Activar polling de respaldo si SSE lleva 4 fallos seguidos
+        if (sseReintento >= 4 && !modoPolling) {
+            modoPolling = true;
+            console.warn("Activando polling HTTP de respaldo cada 3s.");
+            pollingIntervalId = setInterval(fetchAlertasPolling, 3000);
+        }
+
+        // Seguir intentando reconectar SSE en paralelo
+        clearTimeout(sseTimeoutId);
+        sseTimeoutId = setTimeout(conectarEventos, espera);
     };
 
     // Evento de inicialización con alertas pendientes
@@ -53,17 +92,11 @@ function conectarEventos() {
     eventSource.addEventListener("newAlert", (event) => {
         try {
             const alert = JSON.parse(event.data);
-            
-            // Comprobar si ya existe por duplicado
             if (!alertsList.some(a => a.id === alert.id)) {
                 alertsList.push(alert);
                 renderAlerts();
                 actualizarEstadisticas();
-                
-                // Reproducir el aviso hablado (SpeechSynthesis)
                 reproducirAvisoSonoro(alert);
-                
-                // Actualizar estadística de último aviso en tiempo real
                 document.getElementById("stat-last-alert").textContent = `Mesa ${alert.mesa}`;
             }
         } catch (e) {
@@ -76,14 +109,8 @@ function conectarEventos() {
         try {
             const data = JSON.parse(event.data);
             const alertId = data.id;
-            
-            // Guardar tiempo para promedio antes de eliminar
             const alerta = alertsList.find(a => a.id === alertId);
-            if (alerta) {
-                const tiempoEspera = Date.now() - alerta.timestamp;
-                resolutionTimes.push(tiempoEspera);
-            }
-
+            if (alerta) resolutionTimes.push(Date.now() - alerta.timestamp);
             alertsList = alertsList.filter(a => a.id !== alertId);
             renderAlerts();
             actualizarEstadisticas();
@@ -91,6 +118,52 @@ function conectarEventos() {
             console.error("Error al procesar resolucion de alerta: ", e);
         }
     });
+}
+
+/**
+ * Polling HTTP de respaldo: consulta /api/alerts cada 3s cuando SSE no funciona.
+ */
+async function fetchAlertasPolling() {
+    try {
+        const resp = await fetch("/api/alerts");
+        if (!resp.ok) return;
+        const data = await resp.json();
+        alertsList = data;
+        renderAlerts();
+        actualizarEstadisticas();
+        actualizarEstadoConexion("polling");
+    } catch (e) {
+        actualizarEstadoConexion("reconectando");
+    }
+}
+
+/**
+ * Actualiza el indicador visual de estado de conexion.
+ * @param {"online"|"reconectando"|"conectando"|"polling"} estado
+ */
+function actualizarEstadoConexion(estado) {
+    const statusDot = document.getElementById("connection-status");
+    if (!statusDot) return;
+    const statusText = statusDot.querySelector(".status-text");
+    switch (estado) {
+        case "online":
+            statusDot.className = "status-indicator status-online";
+            statusText.textContent = "Conectado";
+            break;
+        case "polling":
+            statusDot.className = "status-indicator status-online";
+            statusText.textContent = "Conectado";
+            break;
+        case "reconectando":
+            statusDot.className = "status-indicator status-reconnecting";
+            statusText.textContent = "Reconectando...";
+            break;
+        case "conectando":
+        default:
+            statusDot.className = "status-indicator status-offline";
+            statusText.textContent = "Conectando...";
+            break;
+    }
 }
 
 /**
