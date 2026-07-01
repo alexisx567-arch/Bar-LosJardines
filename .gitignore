@@ -1,0 +1,8 @@
+# Archivos compilados de Java
+*.class
+
+# Logs
+*.log
+
+# Datos de persistencia local (se crean en tiempo de ejecucion)
+pedidos.json

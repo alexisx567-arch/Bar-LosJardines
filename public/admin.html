@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración - Los Jardines</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Estilos de administración -->
+    <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+
+    <!-- Panel de Navegacion Superior -->
+    <nav class="admin-navbar">
+        <div class="nav-brand">
+            <i class="fa-solid fa-desktop"></i>
+            <span>Los Jardines - Panel de Recepción</span>
+        </div>
+        
+        <div class="nav-controls">
+            <!-- Boton de Activacion de Audio (Resuelve restricciones de autoplay de navegadores) -->
+            <button id="sound-toggle" class="control-btn sound-muted" onclick="toggleSound()">
+                <i class="fa-solid fa-volume-xmark"></i> <span>Sonido Desactivado</span>
+            </button>
+
+            <!-- Indicador de conexion SSE -->
+            <div id="connection-status" class="status-indicator status-offline">
+                <span class="status-dot"></span>
+                <span class="status-text">Desconectado</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenido Principal -->
+    <main class="admin-container">
+        <!-- Tarjetas Estadisticas Rapidas -->
+        <section class="stats-bar">
+            <div class="stat-card">
+                <span class="stat-label">Alertas Activas</span>
+                <span id="stat-active-count" class="stat-value">0</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-label">Tiempo de Respuesta Promedio</span>
+                <span id="stat-avg-time" class="stat-value">--</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-label">Último Aviso</span>
+                <span id="stat-last-alert" class="stat-value">-</span>
+            </div>
+        </section>
+
+        <!-- Rejilla de Alertas Activas -->
+        <section class="alerts-section">
+            <h2 class="section-title">Avisos Pendientes de Mesas</h2>
+            
+            <!-- Contenedor dinámico de alertas -->
+            <div id="alerts-grid" class="alerts-grid">
+                <!-- Se inyectaran mediante JS. A continuacion el placeholder de vacio -->
+                <div id="no-alerts-placeholder" class="no-alerts-placeholder">
+                    <div class="placeholder-icon"><i class="fa-solid fa-mug-hot"></i></div>
+                    <h3>Sin avisos pendientes</h3>
+                    <p>Las llamadas de las mesas aparecerán aquí en tiempo real.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Overlay de aviso inicial para activar audio -->
+    <div id="audio-prompt-overlay" class="audio-prompt-overlay" onclick="enableAudioAndCloseOverlay()">
+        <div class="prompt-box">
+            <div class="prompt-icon"><i class="fa-solid fa-bell-ring fa-shake"></i></div>
+            <h2>Activar Alertas de Sonido</h2>
+            <p>Para escuchar un aviso sonoro cada vez que una mesa llame, haz clic en este botón para autorizar el sonido en el navegador.</p>
+            <button class="prompt-btn">Activar Sonido y Abrir Panel</button>
+        </div>
+    </div>
+
+    <!-- Scripts de logica -->
+    <script src="/js/admin.js"></script>
+</body>
+</html>

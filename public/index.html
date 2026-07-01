@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bar Los Jardines - Carta Digital</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Playfair+Display:ital,wght@0,600;0,800;1,400&display=swap" rel="stylesheet">
+    <!-- FontAwesome for elegant icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Estilos de la carta -->
+    <link rel="stylesheet" href="/css/client.css">
+</head>
+<body>
+
+    <!-- Cabecera de bienvenida -->
+    <header class="app-header">
+        <div class="header-overlay"></div>
+        <div class="header-content">
+            <span class="restaurant-tag">Bar</span>
+            <h1 class="restaurant-name">Los Jardines</h1>
+            <div id="mesa-indicator" class="mesa-badge">
+                <i class="fa-solid fa-chair"></i> <span>Mesa</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Barra de categorias (sticky) -->
+    <nav class="category-nav">
+        <div class="category-scroll">
+            <button class="category-btn active" onclick="filterCategory('todos')">Todo</button>
+            <button class="category-btn" onclick="filterCategory('entrantes')">Entrantes</button>
+            <button class="category-btn" onclick="filterCategory('raciones')">Raciones</button>
+            <button class="category-btn" onclick="filterCategory('bebidas')">Bebidas</button>
+            <button class="category-btn" onclick="filterCategory('postres')">Postres</button>
+        </div>
+    </nav>
+
+    <!-- Contenido de la carta -->
+    <main class="menu-container">
+        <!-- Categoria: Entrantes -->
+        <section class="menu-section" data-category="entrantes">
+            <h2 class="section-title">Entrantes & Tapas</h2>
+            <div class="menu-grid">
+                <!-- Item 1 -->
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-header">
+                            <h3 class="item-title">Croquetas Cremosas de Jamón Ibérico</h3>
+                            <span class="item-price">9.50€</span>
+                        </div>
+                        <p class="item-desc">Bechamel ultra cremosa cocinada a fuego lento con virutas de jamón ibérico de bellota. (6 unidades)</p>
+                        <div class="item-tags">
+                            <span class="tag-badge alert-allergen"><i class="fa-solid fa-wheat-awn"></i> Glúten</span>
+                            <span class="tag-badge alert-allergen"><i class="fa-solid fa-cow"></i> Lácteos</span>
+                            <span class="tag-badge recommended-badge"><i class="fa-solid fa-star"></i> Especialidad</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-header">
+                            <h3 class="item-title">Patatas Bravas Bravísimas</h3>
+                            <span class="item-price">7.80€</span>
+                        </div>
+                        <p class="item-desc">Patatas gallegas crujientes por fuera y tiernas por dentro, con alioli de ajo asado y nuestra salsa brava picante secreta.</p>
+                        <div class="item-tags">
+                            <span class="tag-badge alert-allergen"><i class="fa-solid fa-egg"></i> Huevo</span>
+                            <span class="tag-badge vegan-badge"><i class="fa-solid fa-leaf"></i> Vegetariano</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Item 3 -->
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-header">
+                            <h3 class="item-title">Alcachofas Confitadas con Jamón y Huevo</h3>
+                            <span class="item-price">12.20€</span>
+                        </div>
+                        <p class="item-desc">Corazones de alcachofa confitados a baja temperatura en aceite de oliva virgen extra, servidos con jamón ibérico crujiente y yema curada.</p>
+                        <div class="item-tags">
+                            <span class="tag-badge alert-allergen"><i class="fa-solid fa-egg"></i> Huevo</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Categoria: Raciones -->
+        <section class="menu-section" data-category="raciones">
+            <h2 class="section-title">Para Compartir</h2>
+            <div class="menu-grid">
+                <!-- Item 4 -->
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-header">
+                            <h3 class="item-title">Pulpo a la Brasa con Parmentier</h3>
+                            <span class="item-price">19.80€</span>
+                        </div>
+                        <p class="item-desc">Pata de pulpo gallego braseada al carbón, servida sobre una fina crema de patata trufada y aceite de pimentón de la Vera.</p>
+                        <div class="item-tags">
+                            <span class="tag-badge alert-allergen"><i class="fa-solid fa-shrimp"></i> Mariscos</span>
+                            <span class="tag-badge recommended-badge"><i class="fa-solid fa-star"></i> Favorito</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Item 5 -->
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-header">
+                            <h3 class="item-title">Calamares a la Andaluza con Alioli de Lima</h3>
+                            <span class="item-price">14.50€</span>
+                        </div>
+                        <p class="item-desc">Calamar fresco de costa ligeramente enharinado y frito, servido con un toque fresco de alioli de lima.</p>
+                        <div class="item-tags">
+                            <span class="tag-badge alert-allergen"><i class="fa-solid fa-wheat-awn"></i> Glúten</span>
+                            <span class="tag-badge alert-allergen"><i class="fa-solid fa-egg"></i> Huevo</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Categoria: Bebidas -->
+        <section class="menu-section" data-category="bebidas">
+            <h2 class="section-title">Bebidas & Bodega</h2>
+            <div class="menu-grid">
+                <!-- Item 6 -->
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-header">
+                            <h3 class="item-title">Cerveza de Grifo Doble (Estrella)</h3>
+                            <span class="item-price">3.20€</span>
+                        </div>
+                        <p class="item-desc">Cerveza rubia bien tirada, fresquísima y servida en copa fría.</p>
+                    </div>
+                </div>
+
+                <!-- Item 7 -->
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-header">
+                            <h3 class="item-title">Copa de Vino Tinto D.O. Ribera del Duero</h3>
+                            <span class="item-price">3.80€</span>
+                        </div>
+                        <p class="item-desc">Vino tinto crianza con notas de fruta madura, madera y especias. Excelente maridaje para carnes y pulpo.</p>
+                    </div>
+                </div>
+
+                <!-- Item 8 -->
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-header">
+                            <h3 class="item-title">Agua Mineral Solán de Cabras</h3>
+                            <span class="item-price">2.50€</span>
+                        </div>
+                        <p class="item-desc">Agua mineral natural embotellada de 500ml.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Categoria: Postres -->
+        <section class="menu-section" data-category="postres">
+            <h2 class="section-title">Postres Caseros</h2>
+            <div class="menu-grid">
+                <!-- Item 9 -->
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-header">
+                            <h3 class="item-title">Tarta de Queso Fluida al Horno</h3>
+                            <span class="item-price">6.50€</span>
+                        </div>
+                        <p class="item-desc">Nuestra famosa tarta de queso horneada diariamente, con un centro cremoso y fundente y base crujiente de galleta.</p>
+                        <div class="item-tags">
+                            <span class="tag-badge alert-allergen"><i class="fa-solid fa-cow"></i> Lácteos</span>
+                            <span class="tag-badge alert-allergen"><i class="fa-solid fa-egg"></i> Huevo</span>
+                            <span class="tag-badge recommended-badge"><i class="fa-solid fa-heart"></i> Imperdible</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Item 10 -->
+                <div class="menu-item">
+                    <div class="item-details">
+                        <div class="item-header">
+                            <h3 class="item-title">Coulant de Chocolate Belga con Helado de Vainilla</h3>
+                            <span class="item-price">6.00€</span>
+                        </div>
+                        <p class="item-desc">Bizcocho de chocolate caliente relleno de chocolate belga fundido, servido con una bola de helado artesanal de vainilla de Madagascar.</p>
+                        <div class="item-tags">
+                            <span class="tag-badge alert-allergen"><i class="fa-solid fa-wheat-awn"></i> Glúten</span>
+                            <span class="tag-badge alert-allergen"><i class="fa-solid fa-cow"></i> Lácteos</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Pie de pagina -->
+    <footer class="app-footer">
+        <p>© 2026 Bar Los Jardines. Todos los derechos reservados.</p>
+        <p class="footer-note">Precios con I.V.A. incluido. Si padece alguna alergia alimentaria, informe al personal.</p>
+    </footer>
+
+    <!-- Boton Flotante de Accion (Llamadas al camarero) -->
+    <button id="fab-action" class="fab-button" onclick="openServiceModal()" aria-label="Llamar al camarero">
+        <i class="fa-solid fa-bell-ring fa-bounce"></i>
+        <span>Llamar / Pedir</span>
+    </button>
+
+    <!-- Modal del Servicio de Mesa (Llamadas) -->
+    <div id="service-modal" class="modal-overlay" onclick="closeServiceModalOnOverlay(event)">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2 class="modal-title">¿En qué te ayudamos?</h2>
+                <button class="modal-close-btn" onclick="closeServiceModal()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <p class="modal-desc">Pulsa una opción y el aviso se enviará instantáneamente a la barra.</p>
+                
+                <div class="service-options-list">
+                    <!-- Opcion 1: Pedir -->
+                    <button class="service-option-btn opt-pedir" onclick="sendServiceAlert('pedir')">
+                        <div class="opt-icon"><i class="fa-solid fa-clipboard-list"></i></div>
+                        <div class="opt-info">
+                            <span class="opt-title">Quiero pedir</span>
+                            <span class="opt-desc">Llama al camarero para tomar nota de tu comanda</span>
+                        </div>
+                        <div class="opt-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+                    </button>
+
+                    <!-- Opcion 2: Camarero -->
+                    <button class="service-option-btn opt-waiter" onclick="sendServiceAlert('camarero')">
+                        <div class="opt-icon"><i class="fa-solid fa-bell"></i></div>
+                        <div class="opt-info">
+                            <span class="opt-title">Llamar al camarero</span>
+                            <span class="opt-desc">Solicitar asistencia personal en la mesa</span>
+                        </div>
+                        <div class="opt-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+                    </button>
+
+                    <!-- Opcion 3: Cuenta -->
+                    <button class="service-option-btn opt-bill" onclick="sendServiceAlert('cuenta')">
+                        <div class="opt-icon"><i class="fa-solid fa-credit-card"></i></div>
+                        <div class="opt-info">
+                            <span class="opt-title">Pedir la cuenta</span>
+                            <span class="opt-desc">Traer el ticket de pago (tarjeta/efectivo)</span>
+                        </div>
+                        <div class="opt-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tostada / Alerta Flotante para confirmaciones -->
+    <div id="toast" class="toast-notification">
+        <i id="toast-icon" class="fa-solid fa-circle-check"></i>
+        <span id="toast-message">Aviso enviado correctamente.</span>
+    </div>
+
+    <!-- Logica JavaScript -->
+    <script src="/js/client.js"></script>
+</body>
+</html>

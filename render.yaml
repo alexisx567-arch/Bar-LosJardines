@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: bar-los-jardines
+    runtime: java
+    buildCommand: javac Server.java
+    startCommand: java Server
+    plan: free
+    envVars:
+      - key: PORT
+        value: 3000
