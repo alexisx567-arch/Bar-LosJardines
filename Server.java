@@ -182,8 +182,10 @@ public class Server {
         for (HttpExchange client : sseClients) {
             try {
                 OutputStream os = client.getResponseBody();
-                os.write(bytes);
-                os.flush();
+                synchronized (os) {
+                    os.write(bytes);
+                    os.flush();
+                }
             } catch (IOException e) {
                 // Si falla la escritura, es que el cliente se ha desconectado
                 failedClients.add(client);
@@ -201,6 +203,7 @@ public class Server {
 
     /**
      * Handler para Server-Sent Events (SSE). Mantiene la conexion abierta con el panel administrador.
+     * Incluye cabecera X-Accel-Buffering: no para evitar que el proxy de Render bloquee el stream.
      */
     static class EventsHandler implements HttpHandler {
         @Override
@@ -216,6 +219,8 @@ public class Server {
             headers.set("Cache-Control", "no-cache");
             headers.set("Connection", "keep-alive");
             headers.set("Access-Control-Allow-Origin", "*");
+            // Necesario para que el proxy Nginx de Render no almacene en buffer el stream SSE
+            headers.set("X-Accel-Buffering", "no");
 
             // Enviar codigo 200 con longitud 0 para indicar transferencia chunked/continua
             exchange.sendResponseHeaders(200, 0);
@@ -223,20 +228,41 @@ public class Server {
             // Agregar el cliente a la lista de suscritos
             sseClients.add(exchange);
 
+            OutputStream os = exchange.getResponseBody();
+
             // Enviar inmediatamente la lista de alertas pendientes al conectarse
             String initialJson = "[" + activeAlerts.stream()
                     .map(Alert::toJson)
                     .collect(Collectors.joining(",")) + "]";
-            
             String initialMessage = String.format("event: initial\ndata: %s\n\n", initialJson);
             try {
-                OutputStream os = exchange.getResponseBody();
                 os.write(initialMessage.getBytes(StandardCharsets.UTF_8));
                 os.flush();
             } catch (IOException e) {
                 sseClients.remove(exchange);
                 exchange.close();
+                return;
             }
+
+            // Hilo de heartbeat: envia un comentario SSE cada 25s para mantener viva la conexion
+            // a traves del proxy de Render (que cierra conexiones inactivas)
+            Thread heartbeat = new Thread(() -> {
+                try {
+                    while (true) {
+                        Thread.sleep(25000);
+                        synchronized (os) {
+                            os.write(": ping\n\n".getBytes(StandardCharsets.UTF_8));
+                            os.flush();
+                        }
+                    }
+                } catch (Exception e) {
+                    // El cliente se ha desconectado, limpiar
+                    sseClients.remove(exchange);
+                    try { exchange.close(); } catch (Exception ignored) {}
+                }
+            });
+            heartbeat.setDaemon(true);
+            heartbeat.start();
         }
     }
 
