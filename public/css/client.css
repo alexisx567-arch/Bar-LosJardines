@@ -2,17 +2,17 @@
    DISEÑO DE SISTEMA - VARIABLES Y TOKENS
    ========================================================================== */
 :root {
-    color-scheme: light;
-    --bg-primary: #ffffff;       /* Fondo blanco */
-    --bg-secondary: #f5f5f5;     /* Fondo tarjetas y componentes */
-    --bg-surface: #f0f0f0;       /* Fondo elementos flotantes y hover */
-    --accent-gold: #ff6b00;      /* Naranja principal */
-    --accent-amber: #e65c00;     /* Naranja oscuro */
+    color-scheme: light only;
+    --bg-primary: #ffffff;
+    --bg-secondary: #f5f5f5;
+    --bg-surface: #f0f0f0;
+    --accent-gold: #ff6b00;
+    --accent-amber: #e65c00;
     --accent-gold-rgb: 255, 107, 0;
-    --text-primary: #1a1a1a;     /* Negro para legibilidad */
-    --text-muted: #666666;       /* Gris oscuro para descripciones */
-    --text-dark: #ffffff;        /* Texto blanco sobre botones naranja */
-    --border-color: #dddddd;     /* Bordes sutiles */
+    --text-primary: #1a1a1a;
+    --text-muted: #666666;
+    --text-dark: #ffffff;
+    --border-color: #dddddd;
     --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);
     --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.12);
     --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.15);
@@ -22,6 +22,20 @@
     --font-heading: 'Playfair Display', serif;
     --font-body: 'Outfit', sans-serif;
     --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg-primary: #ffffff;
+        --bg-secondary: #f5f5f5;
+        --bg-surface: #f0f0f0;
+        --accent-gold: #ff6b00;
+        --accent-amber: #e65c00;
+        --accent-gold-rgb: 255, 107, 0;
+        --text-primary: #1a1a1a;
+        --text-muted: #666666;
+        --border-color: #dddddd;
+    }
 }
 
 /* ==========================================================================

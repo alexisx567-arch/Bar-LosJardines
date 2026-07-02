@@ -2,24 +2,33 @@
    SISTEMA DE DISEÑO - PANEL DE ADMINISTRACIÓN
    ========================================================================== */
 :root {
-    color-scheme: light;
+    color-scheme: light only;
     --bg-main: #ffffff;
     --bg-card: #f5f5f5;
     --bg-card-hover: #e8e8e8;
     --border-color: #dddddd;
     --text-main: #1a1a1a;
     --text-muted: #666666;
-    
     --clr-pedir: #ff6b00;
     --clr-waiter: #0ea5e9;
     --clr-bill: #10b981;
     --clr-critical: #ef4444;
-    
     --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.1);
     --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.12);
     --font-family: 'Outfit', sans-serif;
     --transition-fast: all 0.2s ease;
     --transition-normal: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg-main: #ffffff;
+        --bg-card: #f5f5f5;
+        --bg-card-hover: #e8e8e8;
+        --border-color: #dddddd;
+        --text-main: #1a1a1a;
+        --text-muted: #666666;
+    }
 }
 
 /* ==========================================================================
