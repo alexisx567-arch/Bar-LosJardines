@@ -2,21 +2,20 @@
    SISTEMA DE DISEÑO - PANEL DE ADMINISTRACIÓN
    ========================================================================== */
 :root {
-    --bg-main: #0c0d12;
-    --bg-card: #151821;
-    --bg-card-hover: #1c202d;
-    --border-color: #252a3c;
-    --text-main: #f1f3f9;
-    --text-muted: #8c93a9;
+    --bg-main: #ffffff;
+    --bg-card: #f5f5f5;
+    --bg-card-hover: #e8e8e8;
+    --border-color: #dddddd;
+    --text-main: #1a1a1a;
+    --text-muted: #666666;
     
-    /* Colores por tipo de servicio */
-    --clr-pedir: #f97316;        /* Naranja para pedir */
-    --clr-waiter: #0ea5e9;       /* Azul para llamar camarero */
-    --clr-bill: #10b981;         /* Verde para cuenta */
-    --clr-critical: #ef4444;     /* Rojo para llamadas retrasadas */
+    --clr-pedir: #ff6b00;
+    --clr-waiter: #0ea5e9;
+    --clr-bill: #10b981;
+    --clr-critical: #ef4444;
     
-    --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.4);
-    --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.6);
+    --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.12);
     --font-family: 'Outfit', sans-serif;
     --transition-fast: all 0.2s ease;
     --transition-normal: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -47,7 +46,7 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 16px 32px;
-    background-color: #08090d;
+    background-color: #fafafa;
     border-bottom: 1px solid var(--border-color);
     position: sticky;
     top: 0;
@@ -65,7 +64,7 @@ body {
 }
 
 .nav-brand i {
-    color: #e59d2a;
+    color: #ff6b00;
 }
 
 .nav-controls {
@@ -93,7 +92,7 @@ body {
 
 .control-btn:hover {
     background-color: var(--bg-card-hover);
-    border-color: #4a5578;
+    border-color: #cccccc;
 }
 
 .sound-muted {
@@ -125,7 +124,7 @@ body {
     border-radius: 20px;
     font-size: 0.82rem;
     font-weight: 600;
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: rgba(0, 0, 0, 0.04);
     border: 1px solid var(--border-color);
 }
 
@@ -402,7 +401,7 @@ body {
 
 .placeholder-icon {
     font-size: 3.5rem;
-    color: rgba(255, 255, 255, 0.06);
+    color: rgba(0, 0, 0, 0.07);
     margin-bottom: 16px;
 }
 
@@ -427,7 +426,7 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(6, 7, 10, 0.95);
+    background-color: rgba(0, 0, 0, 0.6);
     z-index: 2000;
     display: flex;
     align-items: center;
@@ -448,7 +447,7 @@ body {
 
 .prompt-icon {
     font-size: 3rem;
-    color: #e59d2a;
+    color: #ff6b00;
     margin-bottom: 20px;
 }
 
@@ -467,22 +466,22 @@ body {
 
 .prompt-btn {
     width: 100%;
-    background: linear-gradient(135deg, #cfa860 0%, #e59d2a 100%);
+    background: linear-gradient(135deg, #ff6b00 0%, #e65c00 100%);
     border: none;
-    color: #0f0f12;
+    color: #ffffff;
     padding: 14px 28px;
     border-radius: 12px;
     font-family: var(--font-family);
     font-weight: 800;
     font-size: 1rem;
     cursor: pointer;
-    box-shadow: 0 4px 16px rgba(229, 157, 42, 0.2);
+    box-shadow: 0 4px 16px rgba(255, 107, 0, 0.25);
     transition: var(--transition-fast);
 }
 
 .prompt-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(229, 157, 42, 0.3);
+    box-shadow: 0 6px 20px rgba(255, 107, 0, 0.35);
 }
 
 .prompt-btn:active {
