@@ -2,6 +2,7 @@
    DISEÑO DE SISTEMA - VARIABLES Y TOKENS
    ========================================================================== */
 :root {
+    color-scheme: light;
     --bg-primary: #ffffff;       /* Fondo blanco */
     --bg-secondary: #f5f5f5;     /* Fondo tarjetas y componentes */
     --bg-surface: #f0f0f0;       /* Fondo elementos flotantes y hover */
