@@ -1,0 +1,12 @@
+{
+  "name": "bar-los-jardines",
+  "version": "1.0.0",
+  "description": "Sistema de carta digital y avisos para mesas",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
