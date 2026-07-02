@@ -119,6 +119,13 @@ app.get('/mesa/:id', (req, res) => {
 app.use(express.static(path.join(__dirname, 'public'), {
     index: 'index.html',
     extensions: ['html', 'htm'],
+    maxAge: 0,
+    etag: false,
+    setHeaders: (res, filePath) => {
+        if (filePath.endsWith('.css') || filePath.endsWith('.js')) {
+            res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+        }
+    },
 }));
 
 app.use((req, res) => {
